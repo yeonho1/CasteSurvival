@@ -73,7 +73,9 @@ public class CasteSurvivalMain extends JavaPlugin {
             l.setX(x);
             l.setY(y+2.5f*i);
             l.setZ(z);
-            if (pi.getLocation().distance(l) > 3.0f) {
+            if (pi.getWorld() != w) {
+                pi.teleport(l);
+            } else if (pi.getLocation().distance(l) > 3.0f) {
                 pi.teleport(l);
             } else if (pi.getLocation().distance(l) > 0){
                 if (playerWillBeStuck(l) || playerWillBeStuck(ol)) {
