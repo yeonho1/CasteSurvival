@@ -1,0 +1,10 @@
+name: CasteSurvival
+author: yeonho1
+version: 1.0
+main: io.github.yeonho1.CasteSurvivalMain
+description: Plugin for Applekr;
+
+commands:
+  csurv:
+    usage: /<command>
+    description: Game Start
