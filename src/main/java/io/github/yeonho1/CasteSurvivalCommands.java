@@ -31,6 +31,10 @@ public class CasteSurvivalCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             if (cmd.getName().equalsIgnoreCase("csurv")) {
+                if (!((Player) sender).isOp()) {
+                    sender.sendMessage(ChatColor.DARK_RED + "관리자만 이 명령어를 사용할 수 있습니다!");
+                    return false;
+                }
                 if (args.length < 1) {
                     sender.sendMessage(ChatColor.DARK_RED + "인자가 너무 적습니다!");
                     sender.sendMessage(ChatColor.DARK_RED + "/csurv start 또는 /csurv stop 을 이용하세요.");
