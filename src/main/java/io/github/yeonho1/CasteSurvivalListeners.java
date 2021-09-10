@@ -10,9 +10,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.util.Vector;
+
+import java.util.UUID;
 
 public class CasteSurvivalListeners implements Listener {
     private CasteSurvivalMain plugin;
@@ -48,16 +52,47 @@ public class CasteSurvivalListeners implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent e) {
-        if (e.getEntity().getType() == EntityType.ENDER_DRAGON) {
-            Player root = this.plugin.stack.get(0);
-            String rootIs = "최하위에 있던 플레이어: ";
-            String playername = "" + ChatColor.GOLD + ChatColor.ITALIC + root.getName();
-            String ED = "" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "엔더 드래곤" + ChatColor.RESET + "이 사망했습니다!";
-            String rootAnnounce = rootIs + playername;
-            for (int i = 0; i < this.plugin.stack.size(); i++) {
-                this.plugin.stack.get(i).sendMessage(ED);
-                this.plugin.stack.get(i).sendMessage(rootAnnounce);
+        if (this.plugin.isRunning) {
+            if (e.getEntity().getType() == EntityType.ENDER_DRAGON) {
+                Player root = this.plugin.stack.get(0);
+                String rootIs = "최하위에 있던 플레이어: ";
+                String playername = "" + ChatColor.GOLD + ChatColor.ITALIC + root.getName();
+                String ED = "" + ChatColor.DARK_PURPLE + ChatColor.BOLD + "엔더 드래곤" + ChatColor.RESET + "이 사망했습니다!";
+                String rootAnnounce = rootIs + playername;
+                for (int i = 0; i < this.plugin.stack.size(); i++) {
+                    this.plugin.stack.get(i).sendMessage(ED);
+                    this.plugin.stack.get(i).sendMessage(rootAnnounce);
+                }
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent e) {
+        if (this.plugin.isRunning) {
+            Player player = e.getPlayer();
+            UUID playerUUID = player.getUniqueId();
+            for (int i = 0; i < this.plugin.stack.size(); i++) {
+                if (this.plugin.stack.get(i).getUniqueId() == playerUUID) {
+                    this.plugin.stack.remove(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        if (this.plugin.isRunning) {
+            Player player = e.getPlayer();
+            UUID playerUUID = player.getUniqueId();
+            for (int i = 0; i < this.plugin.stack.size(); i++) {
+                if (this.plugin.stack.get(i).getUniqueId() == playerUUID) {
+                    this.plugin.stack.remove(i);
+                    break;
+                }
+            }
+            this.plugin.stack.add(player);
         }
     }
 }

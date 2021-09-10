@@ -14,6 +14,8 @@ public class CasteSurvivalMain extends JavaPlugin {
     ArrayList<Player> stack;
     CasteSurvivalListeners lis;
     CasteSurvivalCommands comm;
+    boolean isRunning = false;
+    int taskId = -1;
     @Override
     public void onEnable() {
         super.onEnable();
