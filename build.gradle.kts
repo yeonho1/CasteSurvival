@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "io.github.yeonho1"
-version = "1.0-ALPHA"
+version = ""
 
 repositories {
     mavenCentral()

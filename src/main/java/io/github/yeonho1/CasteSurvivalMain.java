@@ -24,6 +24,7 @@ public class CasteSurvivalMain extends JavaPlugin {
         this.lis = new CasteSurvivalListeners(this);
         this.comm = new CasteSurvivalCommands(this);
         getCommand("csurv").setExecutor(this.comm);
+        getCommand("setgravity").setExecutor(this.comm);
         Bukkit.getPluginManager().registerEvents(this.lis, this);
     }
 
@@ -67,13 +68,19 @@ public class CasteSurvivalMain extends JavaPlugin {
         double y = p1loc.getY();
         double z = p1loc.getZ();
         p1.setGravity(true);
+        double lastY = y;
         for (int i = 1; i < this.stack.size(); i++) {
             Player pi = this.stack.get(i);
             Location ol = pi.getLocation();
             Location l = pi.getLocation();
             l.setWorld(w);
             l.setX(x);
-            l.setY(y+2.5f*i);
+            if (this.stack.get(i-1).isSwimming()) {
+                lastY += 1.5f;
+            } else {
+                lastY += 2.5f;
+            }
+            l.setY(lastY);
             l.setZ(z);
             if (pi.getWorld() != w) {
                 pi.teleport(l);

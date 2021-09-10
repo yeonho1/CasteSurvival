@@ -8,3 +8,6 @@ commands:
   csurv:
     usage: /<command>
     description: Game Start
+  setgravity:
+    usage: /<command> <playername> <bool>
+    description: set gravity true or false
